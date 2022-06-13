@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
 
 const CommentSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   content: {
     type: String,
     required: true,
   },
   createdAt: {
-    type: Date,
+    type: String,
     required: true,
   },
   score: {
@@ -14,8 +18,11 @@ const CommentSchema = new mongoose.Schema({
     required: true,
   },
   user: {
-    type: Object,
-    required: true,
+    image: {
+      png: { type: String },
+      webp: { type: String },
+    },
+    username: { type: String, required: true },
   },
   replies: {
     type: Array,

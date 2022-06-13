@@ -1,27 +1,37 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const commentActions = require("./actions/commentActions");
+const getCurrentUser = require("./actions/userActions");
+const config = require("./config");
+
+// database
+const mongoose = require("mongoose");
+mongoose.connect(config.db);
 
 // router
 const router = express.Router();
 
-// default port
-const port = process.env.PORT || 3001;
-
+app.use(bodyParser.json());
+app.use(cors());
 app.use("/api/", router);
 
-app.listen(port, () => {
-  console.log("Server works on port: " + port);
+app.listen(config.port, () => {
+  console.log("Server works on port: " + config.port);
 });
 
-// --- ROUTES ---
+// --- COMMENTS ROUTES ---
 
-// GET comments
-router.get("/comments", () => {});
-// GET one comment
-router.get("/comments/:id", () => {});
-// POST one comment
-router.post("/comments", () => {});
-// PUT one comment
-router.put("/comments/:id", () => {});
-// DELETE one comment
-router.delete("/comments/:id", () => {});
+router.get("/comments", commentActions.getComments);
+
+router.get("/comments/:id", commentActions.getComment);
+
+router.post("/comments", commentActions.saveComment);
+
+router.put("/comments/:id", commentActions.updateComment);
+
+router.delete("/comments/:id", commentActions.deleteComment);
+
+// ---- USER ROUTE
+router.get("/currentUser/:username", getCurrentUser);
