@@ -82,11 +82,7 @@ class CommentActions {
   async deleteComment(req, res) {
     const id = req.params.id;
 
-    try {
-      await Comment.deleteOne({ id: id });
-    } catch (err) {
-      return res.status(500).json({ message: err.message });
-    }
+    await Comment.deleteOne({ id: id });
 
     return res.status(204);
   }
